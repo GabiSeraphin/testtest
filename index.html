@@ -5467,6 +5467,34 @@
   generateTileGrid
 } from './config';
 ```
+// Renderizar grid de aventuras
+function renderAdventureGrid() {
+  const g = document.getElementById('adventureGrid');
+  g.innerHTML = Object.entries(REGIONS).map(([k, r]) => `
+    <div class="adventure-card" onclick="openAdventureSelect('${k}')">
+      <div class="adventure-icon">${r.icon}</div>
+      <div class="adventure-name">${r.namePt}</div>
+      <div class="adventure-stats">
+        ⏱️ ${Math.round(r.duration/1000)}s | 🍯 ${r.nectarCost} | ⚠️ Lv${r.dangerLevel}
+      </div>
+      <div class="seeds-preview">${r.seeds.map(s => PLANTS[s].icon).join(' ')}</div>
+    </div>
+  `).join('');
+}
+
+// Criar borboleta com traits exclusivas da região
+function createButterflyFromRegion(regionKey) {
+  const bf = createButterfly({});
+  const trait = getRegionExclusiveTrait(regionKey);
+  if (trait) {
+    bf.regionTrait = trait;
+    bf.region = regionKey;
+  }
+  return bf;
+}
+
+// Gerar grid de tiles para combate
+const tileGrid = generateRegionTileGrid('jardim_encantado', 10, 10);
 </script>
     <script>
         let currentLang = localStorage.getItem('bgl_lang') || 'pt';
